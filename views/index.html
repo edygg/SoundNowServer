@@ -1,0 +1,106 @@
+<html>
+
+	<head>
+		<title>Wild Drive</title>
+		<meta charset="utf-8">
+		 <link href="css/bootstrap.min.css" rel="stylesheet">
+		 <link href="css/style.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<div id="loader-wrapper"><img id='loader-image' src='resources/loader.gif'></div>
+		<div id="new-folder-wrapper">
+			<div id="new-folder-content-wrapper">
+				<h4>Nueva Carpeta</h4><br>
+				<input type="text" class="form-control" id="nombre-carpeta" placeholder="Nombre Carpeta"><br>
+				<button id="boton-cancelar-crear-carpeta" class="btn btn-default">Cancelar</button>
+				<button id="boton-crear-carpeta" class="btn btn-success">Crear</button>
+			</div>
+		</div>
+		<div id="new-file-wrapper">
+			<div id="new-folder-content-wrapper">
+				<h4>Nuevo Archivo</h4><br>
+				<input type="text" class="form-control" id="nombre-archivo" placeholder="Nombre Archivo"><br>
+				<button id="boton-cancelar-crear-archivo" class="btn btn-default">Cancelar</button>
+				<button id="boton-aceptar-crear-archivo" class="btn btn-success">Crear</button>
+			</div>
+		</div>
+    	<div id="upload-file-wrapper">
+			<div id="upload-file-content-wrapper">
+				<h4>Subir Archivo</h4><br>
+				<form id="upload_file_form" action="/files/upload/0" enctype="multipart/form-data" method="post">
+		          <input id="file-selector" type="file" name="uploadfile">
+		          <br>
+		          <input type="submit" value="Upload" class="btn btn-success">  
+		        </form>
+        		<button id="boton-cancelar-subir-archivo" class="btn btn-danger">Cancelar</button>
+			</div>
+		</div>
+		<div id="wild-drive-app-Wrapper">
+			<div id="toolbar-Wrapper">
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+				    		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				    			<span class="sr-only">Toggle navigation</span>
+				    			<span class="icon-bar"></span>
+				    			<span class="icon-bar"></span>
+				    			<span class="icon-bar"></span>
+				    		</button>
+				    		<a class="navbar-brand"><img id="icon" alt="Brand" src="resources/wild_disk_logo.png"></a>
+				    		<a id="app-title" class="navbar-brand">Wild Drive</a>
+						</div>
+						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				    		<ul class="nav navbar-nav navbar-right">
+				    			<form class="navbar-form navbar-left" role="search">
+									<div class="form-group">
+										<input type="text" class="form-control" placeholder="Search">
+									</div>
+								</form>
+								<li class="boton-nueva-carpeta" title="Nueva Carpeta"><a><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span></a></li>
+								<li id="boton-toolbar-nuevo-archivo" class="boton-nuevo-archivo" title="Nuevo Archivo"><a><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a></li>
+								<li id="boton-toolbar-subir-archivo" title="Subir Archivo"><a><span class="glyphicon glyphicon-upload boton-subir-archivo" aria-hidden="true"></span></a></li>
+				    		</ul>
+						</div>
+					</div>
+				</nav>
+			</div>
+			<div id="content-Wrapper" class="row">
+				<div id="left-content-wrapper" class="col-md-2">
+					<div id="new-button-wrapper">
+						<div class="dropdown">
+							<button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+								Nuevo
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+								<li role="presentation" class="boton-nuevo-archivo"><a role="menuitem" tabindex="-1">Archivo</a></li>
+								<li class="boton-nueva-carpeta" role="presentation"><a role="menuitem" tabindex="-1">Carpeta</a></li>
+								<li class="boton-subir-archivo" role="presentation"><a role="menuitem" tabindex="-1">Subir Archivo</a></li>
+							</ul>
+						</div>
+					</div>
+					<div id="navigation-tree-wrapper">
+						<div id="tree">
+							<div class="tree-element">
+								<div class="tree-element-name"><span class="glyphicon glyphicon-triangle-right"></span> <span class="glyphicon glyphicon-folder-open"></span>  Mi Unidad</div>
+								<div class="tree-element-content" folderid="0"></div>
+							</div>
+						</div>
+					</div>
+					<div id="left-app-info-wrapper">
+						<br>Wild Drive<br>Proyecto Sistemas Operativos II<br>2015
+					</div>
+				</div>
+				<div id="right-content-wrapper" class="col-md-10">
+					<div id="route-wrapper"></div>
+					<div id="file-explorer-wrapper"></div>
+				</div>
+			</div>
+		</div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/funciones.js"></script>
+	</body>
+	
+</html>

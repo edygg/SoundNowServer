@@ -1,0 +1,30 @@
+<html>
+
+	<head>
+		<title>Wild Drive</title>
+		<meta charset="utf-8">
+		 <link href="/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+
+	<body>
+    <div class="col-md-6 col-md-offset-3">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Cliente (IP:Puerto)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (var i = 0; i < file_clients.length; i++) { %>
+         <tr>
+           <td><%= file_clients[i] %></td> 
+        </tr>
+        <% } %>  
+      </tbody>
+    </table>
+      </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+	</body>
+
+</html>

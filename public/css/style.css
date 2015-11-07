@@ -1,0 +1,211 @@
+
+/*		INDEX CSS		*/
+
+html,body {
+	height:100%;
+}
+
+#content-Wrapper{
+	margin: 0px;
+	margin-top: -20px !important;
+	height: calc(100vh - 53px);
+	position: relative;
+}
+
+#left-content-wrapper{
+	border-right: 1px solid LightGray;
+	padding: 0px;
+	height: 100%;
+}
+
+#right-content-wrapper{
+	height: 100%;
+	padding: 0px;
+}
+
+#new-button-wrapper{
+	text-align: center;
+	margin-top: 20px;
+}
+
+#navigation-tree-wrapper{
+	border-top: 1px solid LightGray;
+	width: 100%;
+	max-height: calc(100vh - 230px);
+	margin-top: 20px;
+}
+
+#left-app-info-wrapper{
+	border-top: 1px solid LightGray;
+	text-align: center;
+	position: fixed;
+    bottom: 0;
+    height: 100px;
+    width: inherit;
+}
+
+#icon{
+	width: 30px;
+	margin-top: -5;
+}
+
+#app-title{
+	padding-left: 10px;
+}
+
+#route-wrapper{
+	border-bottom: 1px solid rgba(211, 211, 211, 0.23);
+	font-weight: bold;
+}
+
+#file-explorer-wrapper{
+	max-height: calc(100vh - 90px);
+}
+
+.archivo{
+	margin: 50px;
+	text-align: center;
+	float: left;
+	cursor: pointer;
+}
+
+#new-folder-wrapper, #new-file-wrapper{
+	content: " ";
+	z-index: 10;
+	display: block;
+	position: absolute;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: none;
+}
+
+#upload-file-wrapper{
+  content: " ";
+	z-index: 10;
+	display: block;
+	position: absolute;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: none;
+}
+
+#new-folder-content-wrapper{
+	height: 200px;
+	width: 300px;
+	position: absolute;
+	background: white;
+	top: 50%;
+  left:50%;
+  margin-top: -100px;
+  margin-left: -150px;
+  text-align: center;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+#upload-file-content-wrapper{
+  min-height: 190px;
+	min-width: 400px;
+	position: absolute;
+	background: white;
+	top: 50%;
+  left:50%;
+  margin-top: -100px;
+  margin-left: -150px;
+  text-align: center;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.empty-folder{
+	color: #6B6363;
+	text-align: center;
+	margin-top: 200px;
+}
+
+.btn-Nav{
+	padding-right: 0px;
+ 	padding-left: 0px;
+}
+
+#loader-wrapper{
+	content: " ";
+	z-index: 10;
+	display: block;
+	position: absolute;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: none;
+}
+
+#loader-image{
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: calc(100vh - 450px);
+}
+
+#tree{
+	margin-top: 15px;
+	color: gray;
+}
+
+.tree-element{
+	position: relative;
+	margin-left: 20px;
+	margin-top: 5px;
+	cursor: pointer;
+}
+
+#wild-drive-app-editor-Wrapper{
+	background-color: #808080;
+}
+
+#text-editor{
+	display: block;
+	margin-left: auto;
+    margin-right: auto;
+    height: 150%;
+  	width: 60%;
+  	padding: 70px;
+  	resize: none;
+}
+
+#crazy-div{
+	height: 20px;
+}
+
+#guardado-exito{
+	position: absolute;
+	margin-top: 55%;
+	margin-left: 20px;
+	background-color: #a2e665;
+	border-radius: 10px;
+	padding: 10;
+	opacity: .8;
+	display: none;
+}
+
+#guardado-error{
+	position: absolute;
+	margin-top: 55%;
+	margin-left: 20px;
+	background-color: #ffa500;
+	border-radius: 10px;
+	padding: 10;
+	opacity: .8;
+	display: none;
+}
+
+.glyphicon{
+  cursor: pointer;
+}
