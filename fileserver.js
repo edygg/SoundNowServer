@@ -61,7 +61,7 @@ var getCurrentServer = function() {
 };
 
 var thereAreFileClients = function() {
-  return fileServers.length == 0
+  return fileServers.length > 0;
 };
 
 io.sockets.on('connection', function(socket) {
@@ -85,7 +85,7 @@ io.sockets.on('connection', function(socket) {
 });
 
 // Routes
-fileRouter.post('/upload', [multer({ dest: './cache/'}), function(req, res){
+fileRouter.post('/upload', [multer({ dest: './cache/'}), function(req, res) {
   var fileInfo = {
     file_ext: req.files.uploadfile.extension,
     file_content: ""
