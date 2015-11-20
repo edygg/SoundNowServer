@@ -45,6 +45,24 @@ io = io.listen(server);
 
 //Socket io
 var fileServers = [];
+var currentServer = 0;
+var getCurrentServer = function() {
+  if (!thereAreFileClients()) {
+    return null;
+  } else {
+    if (currentServer >= fileServers.length) {
+      currentServer = 0;
+    } else {
+      currentServer = currentServer + 1;
+    }
+
+    return currentServer;
+  }
+};
+
+var thereAreFileClients = function() {
+  return fileServers.length == 0
+};
 
 io.sockets.on('connection', function(socket) {
 
@@ -73,25 +91,29 @@ fileRouter.post('/upload', [multer({ dest: './cache/'}), function(req, res){
     file_content: ""
   };
 
-  fs.readFile(req.files.uploadfile.path, function(err, data) {
-    if (err)
-      console.log(err);
-
-    fileInfo.file_content = data.toString("utf-8");
-
-    currentSong = new models.Song({ name: req.files.uploadfile.originalname });
-
-    currentSong.save(function(err) {
-      if (err) {
+  if (!thereAreFileClients()) {
+    res.json({ status: 'failed' });
+  } else {
+    fs.readFile(req.files.uploadfile.path, function(err, data) {
+      if (err)
         console.log(err);
-      } else {
-        fileInfo.songId = currentSong._id;
-        io.emit('sendfile', fileInfo);
-      }
-    });
 
-    res.json({ status: 'ok' });
-  });
+      fileInfo.file_content = data.toString("utf-8");
+
+      currentSong = new models.Song({ name: req.files.uploadfile.originalname });
+
+      currentSong.save(function(err) {
+        if (err) {
+          console.log(err);
+        } else {
+          fileInfo.songId = currentSong._id;
+          io.emit('sendfile', fileInfo);
+        }
+      });
+
+      res.json({ status: 'ok' });
+    });
+  }
 }]);
 
 
