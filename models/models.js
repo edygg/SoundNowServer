@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var connection = mongoose.connect('mongodb://localhost/wild-drive', function(error) {
+var connection = mongoose.connect('mongodb://localhost/sound-now', function(error) {
 	if (error)
 		console.log(error);
 });
@@ -10,14 +10,12 @@ var models = {};
 var Schema = mongoose.Schema;
 
 //------------------------------------------------------
-var fileSchema = new Schema({
+var songSchema = new Schema({
   name: String,
-  _parentfile: { type: Schema.Types.ObjectId, ref: 'File' },
   url: String,
-  filetype: String,
 });
 
-models.File = connection.model('File', fileSchema);
+models.Song = connection.model('Song', songSchema);
 
 
 
@@ -28,5 +26,3 @@ models.File = connection.model('File', fileSchema);
 
 //------------------------------------------------------
 module.exports = models;
-
-

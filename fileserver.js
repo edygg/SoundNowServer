@@ -36,196 +36,70 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 // Server
-var port = process.env.PORT || 3000;
+//var port = process.env.PORT || 3000;
+var port = 3000;
 app.set('port', port);
 var server = http.createServer(app);
 server.listen(port);
 io = io.listen(server);
 
 //Socket io
-// Socketio
-var webClients = [];
 var fileServers = [];
 
 io.sockets.on('connection', function(socket) {
-  
+
     if (socket.handshake.query.type === 'fileclient') {
       fileServers.push(socket.handshake.query.server_name);
     }
-  
-    if (socket.handshake.query.type === 'webclient') {
-      webClients.push(socket.handshake.address.address + ":" + socket.handshake.address.port);
-    }
-  
+
 		socket.on('filesaved', function(file_saved) {
-      console.log("Entre al evento");
-      models.File.findOne({ _id: file_saved.dataEntry }, function(err, dataEntry) {
-        dataEntry.url = file_saved.url;
-        
-        dataEntry.save(function(err) {
+      models.Song.findOne({ _id: file_saved.songId }, function(err, song) {
+        song.url = file_saved.url;
+
+        song.save(function(err) {
           if (err)
             console.log(err);
           else
-            console.log("Data entry actualizada con éxito");
+            console.log("Canción actualizada con éxito.");
         });
       });
     });
 });
 
 // Routes
-
-fileRouter.get('/', function(req, res, next) {
-		res.render('file');
-});
-
-fileRouter.post('/upload/:parent_id', [ multer({ dest: './cache/'}), function(req, res){
-  console.log(req.body); // form fields
-  console.log(req.params); 
-  console.log(req.files); // form files
-  
+fileRouter.post('/upload', [multer({ dest: './cache/'}), function(req, res){
   var fileInfo = {
     file_ext: req.files.uploadfile.extension,
     file_content: ""
   };
-  
+
   fs.readFile(req.files.uploadfile.path, function(err, data) {
     if (err)
       console.log(err);
-    
+
     fileInfo.file_content = data.toString("utf-8");
-    
-    models.File.findOne({ _id: req.params.parent_id }).exec(function(err, file) {
-      if (err)
+
+    currentSong = new models.Song({ name: req.files.uploadfile.originalname });
+
+    currentSong.save(function(err) {
+      if (err) {
         console.log(err);
-      var dataEntry = null;
-
-      if (file) {
-        dataEntry = new models.File({ name: req.files.uploadfile.originalname, _parentfile: file._id, url: null, filetype: 'file' });
       } else {
-        dataEntry = new models.File({ name: req.files.uploadfile.originalname, _parentfile: null, url: null, filetype: 'file' });
+        fileInfo.songId = currentSong._id;
+        io.emit('sendfile', fileInfo);
       }
-
-      dataEntry.save(function(err) {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log(dataEntry);
-          fileInfo.dataEntry = dataEntry._id;
-          io.emit('sendfile', fileInfo);
-          console.log("Guardado con exito");
-        }
-      });
-      res.redirect('/files');
     });
-  });
-  
-  //res.status(204).end();
+
+    res.json({ status: 'ok' });
 }]);
 
-homeRouter.get('/get_tree/:parent_id', function(req, res, next) {
-  var parent = null
-  
-  if (req.params.parent_id != 0) {
-     parent = req.params.parent_id;
-  }
-  
-  models.File.find({ _parentfile: parent }).exec(function(err, files) {
-    if (err)
-      console.log(err);
-    var tree_json = [];
-    
-    files.forEach(function(file) {
-      var current_file = {};
-      current_file.id = file._id;
-      current_file.name = file.name;
-      current_file.type = file.filetype;
-      current_file.url = file.url;
-      
-      tree_json.push(current_file);
-    });
-    
-    res.json(tree_json);
-  });
-});
-
-homeRouter.post('/mkdir/:parent_id', function(req, res, next) {
-  models.File.findOne({ _id: req.params.parent_id }).exec(function(err, file) {
-    if (err)
-      console.log(err);
-    var dataEntry = null;
-    
-    if (file)
-      dataEntry = new models.File({ name: req.body.folder_name, _parentfile: file._id, url: null, filetype: 'folder' });
-    else
-      dataEntry = new models.File({ name: req.body.folder_name, _parentfile: null, url: null, filetype: 'folder' });
-    dataEntry.save(function(err) {
-      if (err) {
-        console.log(err);
-        res.json({ status: "error" });
-      } else {
-        console.log("Guardado con exito");
-        res.json({ status: "ok" });
-      }
-    });
-  });
-});
-
-homeRouter.post('/create_file/:parent_id', function(req, res, next) {
-  console.log(req.body); // form fields
-  console.log(req.params); 
-  
-  var fileInfo = {
-    file_ext: "",
-    file_content: "",
-    file_name: req.body.file_name
-  };
-    
-  models.File.findOne({ _id: req.params.parent_id }).exec(function(err, file) {
-    if (err)
-      console.log(err);
-    var dataEntry = null;
-
-    if (file) {
-      dataEntry = new models.File({ name: req.body.file_name, _parentfile: file._id, url: null, filetype: 'file' });
-    } else {
-      dataEntry = new models.File({ name: req.body.file_name, _parentfile: null, url: null, filetype: 'file' });
-    }
-
-    dataEntry.save(function(err) {
-      if (err) {
-        console.log(err);
-        
-      } else {
-        console.log(dataEntry);
-        fileInfo.dataEntry = dataEntry._id;
-        io.emit('sendfile', fileInfo);
-        console.log("Guardado con exito");
-      }
-    });
-    res.redirect('/');
-  });
-});
 
 //---------------------------------------------------------------
 
-homeRouter.get('/', function(req, res, next) {
-  res.render('index');
-});
-
-homeRouter.get('/editor', function(req, res, next) {
-  res.render('editor');
-});
 
 //---------------------------------------------------------------
-
-//---------------------------------------------------------------
-
-adminRouter.get('/web_clients', function(req, res, next) {
-  res.render('web_clients', { web_clients: webClients });
-});
-
 adminRouter.get('/file_clients', function(req, res, next) {
-  res.render('file_clients', { file_clients: fileServers });
+  res.json({ file_clients: fileServers });
 });
 
 //---------------------------------------------------------------
