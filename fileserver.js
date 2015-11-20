@@ -91,6 +91,7 @@ fileRouter.post('/upload', [multer({ dest: './cache/'}), function(req, res){
     });
 
     res.json({ status: 'ok' });
+  });
 }]);
 
 
