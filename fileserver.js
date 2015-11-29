@@ -88,7 +88,7 @@ io.sockets.on('connection', function(socket) {
 });
 
 // Routes
-fileRouter.post('/upload', [multer({ dest: './cache/'}), function(req, res) {
+fileRouter.post('/upload', [multer({ dest: './cache/', limits: { fieldSize: 20 * 1024 * 1024 }}), function(req, res) {
   var fileInfo = {
     file_ext: req.files.uploadfile.extension,
     file_content: ""
