@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var multer  = require('multer');
 var io = require('socket.io');
 var Schema = require('mongoose').Schema;
+var timeout = require('connect-timeout');
 
 // Routers
 var fileRouter = express.Router();
@@ -31,13 +32,20 @@ app.engine('html', require('ejs').renderFile);
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
+app.use(timeout('1200s'));
 app.use(bodyParser.json());
+app.use(haltOnTimedout);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //CORS
 app.use(cors());
+
+// connection timeout
+function haltOnTimedout(req, res, next){
+  if (!req.timedout) next();
+}
 
 // Server
 //var port = process.env.PORT || 3000;
