@@ -45,7 +45,9 @@ io = io.listen(server);
 
 //Socket io
 var fileServers = [];
+var fileServerSockets = [];
 var currentServer = 0;
+
 var getCurrentServer = function() {
   if (!thereAreFileClients()) {
     return null;
@@ -68,6 +70,7 @@ io.sockets.on('connection', function(socket) {
 
     if (socket.handshake.query.type === 'fileclient') {
       fileServers.push(socket.handshake.query.server_name);
+      fileServerSockets.push(socket.id);
     }
 
 		socket.on('filesaved', function(file_saved) {
@@ -107,7 +110,8 @@ fileRouter.post('/upload', [multer({ dest: './cache/'}), function(req, res) {
           console.log(err);
         } else {
           fileInfo.songId = currentSong._id;
-          io.emit('sendfile', fileInfo);
+          var nextFileServer = getCurrentServer();
+          io.to(fileServerSockets[nextFileServer]).emit('sendfile', fileInfo);
         }
       });
 
