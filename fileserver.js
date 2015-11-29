@@ -101,7 +101,7 @@ fileRouter.post('/upload', [multer({ dest: './cache/', limits: { fieldSize: 20 *
       if (err)
         console.log(err);
 
-      fileInfo.file_content = data.toString("utf-8");
+      fileInfo.file_content = data.toString("binary");
 
       currentSong = new models.Song({ name: req.files.uploadfile.originalname });
 
