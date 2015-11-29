@@ -54,11 +54,11 @@ var getCurrentServer = function() {
   } else {
     if (currentServer >= fileServers.length) {
       currentServer = 0;
+      return currentServer;
     } else {
       currentServer = currentServer + 1;
+      return currentServer - 1;
     }
-
-    return currentServer;
   }
 };
 
