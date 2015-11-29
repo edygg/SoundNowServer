@@ -8,9 +8,13 @@ var bodyParser = require('body-parser');
 var multer  = require('multer');
 var io = require('socket.io');
 var Schema = require('mongoose').Schema;
+
+// Routers
 var fileRouter = express.Router();
 var homeRouter = express.Router();
 var adminRouter = express.Router();
+var apiRouter = express.Router();
+
 var http = require('http');
 var fs = require('fs');
 var cors = require('cors');
@@ -127,6 +131,19 @@ fileRouter.post('/upload', [multer({ dest: './cache/', limits: { fieldSize: 20 *
 //---------------------------------------------------------------
 adminRouter.get('/file_clients', function(req, res, next) {
   res.json({ file_clients: fileServers });
+});
+
+//---------------------------------------------------------------
+
+//---------------------------------------------------------------
+apiRouter.get('/songs', function(req, res, next) {
+  models.Songs.find(function(err, songs) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(songs);
+    }
+  });
 });
 
 //---------------------------------------------------------------
