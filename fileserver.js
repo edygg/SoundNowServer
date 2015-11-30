@@ -145,7 +145,7 @@ adminRouter.get('/file_clients', function(req, res, next) {
 
 //---------------------------------------------------------------
 apiRouter.get('/songs', function(req, res, next) {
-  models.Songs.find(function(err, songs) {
+  models.Song.find(function(err, songs) {
     if (err) {
       console.log(err);
     } else {
