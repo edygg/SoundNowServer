@@ -159,6 +159,7 @@ apiRouter.get('/songs', function(req, res, next) {
 app.use('/', homeRouter);
 app.use('/files', fileRouter);
 app.use('/admin', adminRouter);
+app.user('/api/', apiRouter);
 
 
 // catch 404 and forward to error handler
